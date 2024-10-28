@@ -81,8 +81,9 @@ userSchema.methods.generateRefreshToken = function () {
   };
   const secret_key = process.env.REFRESH_TOKEN_SECRET;
   const options = {
-    expiresIn: process.env.REFRESH_TOKEN_SECRE,
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRY, // Updated key
   };
   return jwt.sign(payload, secret_key, options);
 };
+
 export const User = mongoose.model("User", userSchema);
