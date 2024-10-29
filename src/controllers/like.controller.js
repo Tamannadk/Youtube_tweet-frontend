@@ -10,7 +10,10 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
   const likedVideo = await Like.aggregate([
     {
       $match: {
-        $and: [{ video: videoId }, { likedBy: req.user._id }],
+        $and: [
+          { video: new mongoose.Types.ObjectId(videoId) },
+          { likedBy: new mongoose.Types.ObjectId(req.user._id) },
+        ],
       },
     },
   ]);
@@ -57,7 +60,10 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
   const likedComment = await Like.aggregate([
     {
       $match: {
-        $and: [{ likedBy: req.user._id }, { comment: commentId }],
+        $and: [
+          { likedBy: new mongoose.Types.ObjectId(req.user._id) },
+          { comment: new mongoose.Types.ObjectId(commentId) },
+        ],
       },
     },
   ]);
@@ -103,7 +109,10 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
   const likedTweets = await Like.aggregate([
     {
       $match: {
-        $and: [{ likedBy: req.user._id }, { tweet: tweetId }],
+        $and: [
+          { likedBy: new mongoose.Types.ObjectId(req.user._id) },
+          { tweet: new mongoose.Types.ObjectId(tweetId) },
+        ],
       },
     },
   ]);
@@ -146,7 +155,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
   const allLikedVideo = await Like.aggregate([
     {
       $match: {
-        likedBy: req.user._id,
+        likedBy: new mongoose.Types.ObjectId(req.user._id),
       },
     },
     {
@@ -176,17 +185,17 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     },
     {
       $project: {
-        "$VideoDetails.videoFile": 1,
-        "$VideoDetails.thumbnail": 1,
-        "$VideoDetails.title": 1,
-        "$VideoDetails.description": 1,
-        "$VideoDetails.duration": 1,
-        "$VideoDetails.views": 1,
-        "$VideoDetails.isPublished": 1,
-        "$UserDetails.username": 1,
-        "$UserDetails.fullName": 1,
-        "$UserDetails.avatar": 1,
-        "$UserDetails.email": 1,
+        "VideoDetails.videoFile": 1,
+        "VideoDetails.thumbnail": 1,
+        "VideoDetails.title": 1,
+        "VideoDetails.description": 1,
+        "VideoDetails.duration": 1,
+        "VideoDetails.views": 1,
+        "VideoDetails.isPublished": 1,
+        "UserDetails.username": 1,
+        "UserDetails.fullName": 1,
+        "UserDetails.avatar": 1,
+        "UserDetails.email": 1,
       },
     },
   ]);

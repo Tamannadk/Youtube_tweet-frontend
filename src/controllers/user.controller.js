@@ -465,4 +465,5 @@ export {
   updateCoverImage,
   refreshAcessToken,
   getUserChannelProfile,
+  getWatchHistory
 };
