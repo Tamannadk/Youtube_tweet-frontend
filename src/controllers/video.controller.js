@@ -58,15 +58,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
   // Pagination options
   const options = {
-    page: parseInt(page, 1),
+    page: parseInt(page, 10),
     limit: parseInt(limit, 10),
   };
 
   // Use mongooseAggregatePaginate for paginated response
-  const allVideos = await Video.mongooseAggregatePaginate(
-    allVideosPipeline,
-    options
-  );
+  const allVideos = await Video.aggregatePaginate(allVideosPipeline, options);
 
   const response = {
     videoCount: allVideos.totalDocs,
